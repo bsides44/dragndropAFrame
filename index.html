@@ -1,0 +1,127 @@
+<!-- 1. user drags model into box
+2. model is sent to s3 storage
+3. model is given unique new name (adjective-animal)
+4. ? service generates new route on website path/adjective-animal
+5. new page on route copies a-frame code
+6. replaces object path with path to adjective-animal in s3 storage
+7. share button copies URL, home button returns to base site -->
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="form.css">
+    </head>
+    <style>
+
+    </style>
+    <body>
+        <div class="container">
+            <div class="title">
+            Upload your 3D model here
+                <ul>
+                    <li class="subtitle">Must be under 3MB</li>
+                    <li class="subtitle">Must be GLTF format</li>
+                    <li class="subtitle">Click Submit to view in AR</li>
+                </ul>
+            </div>
+            <form id="uploadModel" action="process.html">
+                <!-- <form action="/amazon-s3-post-url" method="post"> -->
+                <div class="input-container form-spacer">
+                    <input id="email" type="email" required autofocus autocomplete="on" placeholder="Email">
+                    <div class="transition"></div>
+                </div>
+                <div class="input-container input-spacer">
+                    <label for="file" class="fileLabel" >Upload 3D Model
+                        <input id="file" type="file" name="file"> </input>
+                    </label>
+                </div>
+                <div class="input-container input-spacer">
+                    <button class="fileLabel" type="button" id="btn" onclick="chooseDefault()">
+                        Or choose default
+                        <img class="tick" id="gif" src="./tick.gif" >
+                        <img class="tick" id="static" src="./tick.png" >
+                    </button>        
+                </div>
+                <input type="text" onclick="onSubmit()" value="Submit" class="submit">
+                <progress id="progressBar" max="100" value="0"></progress>
+
+            </form>
+        </div>
+        <script>
+            var ticked = false
+            function chooseDefault() {
+                ticked = !ticked
+                var gif = document.getElementById("gif");
+                var static = document.getElementById("static");
+                if (ticked) {
+                    gif.style.visibility = "visible"
+                    setTimeout(() => {
+                        gif.style.visibility = "hidden"
+                        static.style.display = "inline";
+                    }, 1500);
+                }
+                if (!ticked){
+                    gif.style.visibility = "hidden"
+                    static.style.display = "none";
+                }
+            }
+            
+            function onSubmit() {
+                var email = document.getElementById("email");
+                // var file = document.getElementById("file");
+                var files = document.getElementById('file').files;
+
+                // post to s3
+                
+                if (files) 
+                {
+                    var file = files[0];
+                    var fileName = file.name;
+                    var filePath = 'model-upload/' + fileName;
+                    var fileUrl = 'https://' + bucketRegion + '.amazonaws.com/ar-me/' +  filePath;
+                    var submitObj = {
+                        "email": email,
+                        "file": file
+                        }
+                    s3.upload({
+                        Key: filePath,
+                        Body: submitObj,
+                        ACL: 'public-read'
+                    }, function(err, data) {
+                        if(err) {
+                            console.log('error', err);
+                        }
+                        else {
+                            console.log('data', data);
+                            console.log('Successfully Uploaded!');
+                        }
+                    }).on('httpUploadProgress', function (progress) {
+                        var uploaded = parseInt((progress.loaded * 100) / progress.total);
+                        var progress = document.getElementById("progressBar");
+                        progress.value = uploaded
+                    });
+                }
+
+            }
+        </script>
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
+        <script type="text/javascript">
+        //Bucket Configurations
+        var bucketName = BUCKET_NAME;
+        var bucketRegion = BUCKET_REGION;
+        var IdentityPoolId = IDENTITY_POOL_ID;
+        
+         AWS.config.update({
+                        region: bucketRegion,
+                        credentials: new AWS.CognitoIdentityCredentials({
+                            IdentityPoolId: IdentityPoolId
+                        })
+                    });
+        
+                    var s3 = new AWS.S3({
+                        apiVersion: '2006-03-01',
+                        params: {Bucket: bucketName}
+                });
+        </script>
+
+    </body>
+</html>

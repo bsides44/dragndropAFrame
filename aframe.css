@@ -1,0 +1,90 @@
+.a-enter-ar{
+    position: fixed !important;
+    right: 20px !important;
+       bottom: 17px !important;
+}
+.a-enter-vr, .a-enter-ar {
+    visibility: hidden !important;
+}
+#webButton {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    width: 200px;
+    border: none;
+    border-radius: 20px;
+    padding: 5px;
+    font-family: system-ui, sans-serif;
+    font-size: 18px;
+    line-height: 170%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 1.25px;
+    transition: all 200ms linear;
+}
+.noAttn {
+    background: aquamarine;
+    border-color: black;
+    border-width: 1px;
+    box-shadow: none;
+    font-weight: 100;
+    transition: all 200ms linear;
+}
+#webButton:hover {
+    background: #74edc5;
+    border-color: rgba(0, 0, 0, 0.05) !important;  
+    border-width: 1px 0px 0px 1px !important;
+    box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.2) !important;
+    font-weight: 300;
+    transition: all 200ms linear;
+    cursor: pointer;
+}
+.attn {
+    background: #74edc5;
+    border-color: rgba(0, 0, 0, 0.05) !important;  
+    border-width: 1px 0px 0px 1px !important;
+    box-shadow: 1px 1px 2px rgba(255, 255, 255, 0.2) !important;
+    font-weight: 200;
+    transition: all 200ms linear;
+    cursor: pointer;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
+#gitButton {
+    position: absolute;
+    bottom: 7px;
+    right: 20px;
+    width: 75px;
+    border: none;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 1.25px;
+    transition: all 200ms linear;
+}
+#gitButton:hover {
+    width:78px;
+    transition: all 200ms linear;
+}
+@media screen and (max-width: 350px) {
+    #webButton {
+        width: 150px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    #webButton {
+        bottom: 50px;
+        width: 77%;
+    }
+    .a-enter-ar{
+        right: 25px !important;
+           bottom: 5px !important;
+    }
+}
