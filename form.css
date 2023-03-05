@@ -88,7 +88,7 @@ body {
     transition: transform 200ms, color 200ms;
     top: 18px;
   }
-  .fileLabel {
+  .labelStyle {
     background-color: #303245;
     border-radius: 12px;
     border: 0;
@@ -108,7 +108,7 @@ body {
     cursor: pointer
   }
 
-  #file { 
+  #fileInput { 
     display: none
   }
 
@@ -134,7 +134,7 @@ body {
     visibility: hidden
   }
 
-  .fileLabel:hover {
+  .labelStyle:hover {
     background-color: #212330
   }
 
@@ -143,6 +143,7 @@ body {
     height: 24px;
     margin-top: 5px;
     margin-left: 1%;
+    accent-color: #434370;
   }
 
   .transition-short {

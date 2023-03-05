@@ -30,12 +30,12 @@
                     <div class="transition"></div>
                 </div>
                 <div class="input-container input-spacer">
-                    <label for="file" class="fileLabel" >Upload 3D Model
-                        <input id="file" type="file" name="file"> </input>
+                    <label for="fileInput" class="labelStyle" id="fileLabel"> Upload 3D Model
+                        <input id="fileInput" type="file" name="fileInput" onchange="getFileName()"> </input>
                     </label>
                 </div>
                 <div class="input-container input-spacer">
-                    <button class="fileLabel" type="button" id="btn" onclick="chooseDefault()">
+                    <button class="labelStyle" type="button" id="btn" onclick="chooseDefault()">
                         Or choose default
                         <img class="tick" id="gif" src="./tick.gif" >
                         <img class="tick" id="static" src="./tick.png" >
@@ -47,12 +47,20 @@
             </form>
         </div>
         <script>
+            function getFileName() {
+                var fileName = "Upload 3D Model"
+                var input = document.getElementById('fileInput')
+                fileName =  input.files.item(0).name
+                var label = document.getElementById('fileLabel').innerHTML = fileName
+            }
+            
             var ticked = false
             function chooseDefault() {
                 ticked = !ticked
                 var gif = document.getElementById("gif");
                 var static = document.getElementById("static");
                 if (ticked) {
+                    document.getElementById('fileLabel').innerHTML = "Upload 3D Model"
                     gif.style.visibility = "visible"
                     setTimeout(() => {
                         gif.style.visibility = "hidden"
